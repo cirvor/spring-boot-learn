@@ -6,8 +6,6 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.BaseMapper;
 
-import java.util.List;
-
 @Mapper
 @Component(value = "userMapper")
 public interface UserMapper extends BaseMapper<User> {

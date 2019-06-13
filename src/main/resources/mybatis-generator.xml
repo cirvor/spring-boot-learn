@@ -26,6 +26,7 @@
                         connectionURL="jdbc:mysql://localhost:3306/learn?characterEncoding=utf-8&amp;useUnicode=yes&amp;useSSL=false"
                         userId="root"
                         password="121837">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver >
@@ -49,6 +50,9 @@
         </javaClientGenerator>
 
         <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
+        <table tableName="user" domainObjectName="User"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false" />
         <table tableName="post" domainObjectName="Post"
                enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false" />
