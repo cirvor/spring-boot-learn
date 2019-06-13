@@ -29,7 +29,6 @@ public class UserController {
 
     @GetMapping("get")
     public User user(@RequestParam(value="id") int id) {
-        System.out.println(id);
         return userService.find(id);
     }
 

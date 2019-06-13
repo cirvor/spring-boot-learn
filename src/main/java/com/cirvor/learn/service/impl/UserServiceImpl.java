@@ -5,6 +5,7 @@ import com.cirvor.learn.pojo.User;
 import com.cirvor.learn.service.UserService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
      * @param id 主键
      * @return 用户
      */
+    @Cacheable(value = "user", key = "#id")
     public User find(int id) {
         return  userMapper.selectByPrimaryKey(id);
     }
