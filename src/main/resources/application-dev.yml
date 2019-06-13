@@ -21,19 +21,19 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver #连接驱动
 #    type: com.alibaba.druid.pool.DruidDataSource #连接池类型
 #    druid: #连接池设置
-#  redis: #Redis配置
-#    host: 127.0.0.1 #ip
-#    port: 6379 #端口号
-#    password:  #密码
-#    database: 1 #设置数据库
-#    timeout: 1000 #连接超时时间（毫秒，0表示永不超时）
-#    lettuce:
-#      shutdown-timeout: 100
-#      pool:
-#        max-active: 100 #连接池最大连接数（负数表示不限制）
-#        max-wait: -1 #连接池最大阻塞等待时间（负数表示不限制）
-#        max-idle: 10 #连接池最大连接
-#        min-idle: 0 #连接池最小连接
+  redis: #Redis配置
+    host: 127.0.0.1 #ip
+    port: 6379 #端口号
+    password:  #密码
+    database: 1 #设置数据库
+    timeout: 1000 #连接超时时间（毫秒，0表示永不超时）
+    lettuce:
+      shutdown-timeout: 100
+      pool:
+        max-active: 100 #连接池最大连接数（负数表示不限制）
+        max-wait: -1 #连接池最大阻塞等待时间（负数表示不限制）
+        max-idle: 10 #连接池最大连接
+        min-idle: 0 #连接池最小连接
   jackson: #json格式配置
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

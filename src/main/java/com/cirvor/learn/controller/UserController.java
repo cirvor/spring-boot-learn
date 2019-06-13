@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
     private final UserService userService;
 
@@ -22,12 +22,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/index")
+    @GetMapping("")
     public User user(@RequestParam(value="name") String name) {
         return userService.selectUserByName(name);
     }
 
-    @GetMapping("/get")
+    @GetMapping("get")
     public User user(@RequestParam(value="id") int id) {
         System.out.println(id);
         return userService.find(id);
@@ -39,13 +39,13 @@ public class UserController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("list")
     public PageInfo<User> userList(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageSize) {
         PageHelper.startPage(pageNo,pageSize);
         return new PageInfo<>(userService.selectAllUser());
     }
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public List<User> all() {
         return userService.all();
     }
