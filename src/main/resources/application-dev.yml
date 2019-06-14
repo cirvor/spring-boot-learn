@@ -15,12 +15,45 @@ spring:
   cache: #缓存配置
     type: redis #使用redis
   datasource: #数据库配置
+    type: com.alibaba.druid.pool.DruidDataSource #使用druid连接池
+    driver-class-name: com.mysql.cj.jdbc.Driver #连接驱动
     url: jdbc:mysql://localhost:3306/learn?characterEncoding=utf-8&useUnicode=yes&useSSL=false #连接地址
     username: root #用户名
     password: 121837 #密码
-    driver-class-name: com.mysql.cj.jdbc.Driver #连接驱动
-#    type: com.alibaba.druid.pool.DruidDataSource #连接池类型
-#    druid: #连接池设置
+    druid: #连接池设置
+      initial-size: 10 #最小连接数
+      max-active: 20 #最大连接数
+      min-idle: 5 #最小连接数
+      max-wait: 60000 #连接最大等待毫秒
+      test-while-idle: true #连接的时检测, 若空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      time-between-eviction-runs-millis: 60000 #作为检测的间隔时间以及testWhileIdel执行的依据
+      min-evictable-idle-time-millis: 30000 #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      validation-query: select 'x' #用来检测连接是否有效的sql 必须是一个查询语句
+      test-on-borrow: false #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      pool-prepared-statements: true #是否缓存preparedStatement,mysql5.5+建议开启
+      max-pool-prepared-statement-per-connection-size: 20 #当值大于0时poolPreparedStatements会自动修改为true
+      filters: stat,wall,log4j2 #配置扩展
+      web-stat-filter: #监控配置
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      filter: #扩展配置
+        slf4j: #日志配置
+          enabled: true
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
+          result-set-close-after-log-enabled: false
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      use-global-data-source-stat: true #合并多个DruidDataSource的监控数据
+      aop-patterns: com.cirvor.learn.service.*,com.cirvor.learn.dao.*,com.cirvor.learn.controller.*,com.cirvor.learn.mapper.*
+      stat-view-servlet: #监控页配置
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: admin
   redis: #Redis配置
     host: 127.0.0.1 #ip
     port: 6379 #端口号
@@ -38,6 +71,24 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+#############################################################
+##
+## 日志输出配置 级别分为：ERROR、WARN、INFO、DEBUG、TRACE
+##
+#############################################################
+logging:
+  config: classpath:log4j2-dev.xml
+#logging.path #日志文件路径
+    ##logging.file: spring.logs #设置日志文件
+    ##logging:
+    ##  level:
+    ##    root: WARN #基础日志
+    ##    org.springframework.web: WARN #web日志
+    ##    org.mybatis: WARN #mybatis日志
+    ##    com.battcn: WARN #
+    ##  file:
+  ##    max-size: 10M #单日志文件大小
+  ##    max-history: 5 #日志文件保存天数
 ############################################################
 #
 # server配置

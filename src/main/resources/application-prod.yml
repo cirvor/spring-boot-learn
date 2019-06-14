@@ -9,34 +9,86 @@ debug: false
 spring:
   devtools: #开发工具配置
     restart: #重启相关配置
-      enabled: false #开启热部署
+      enabled: true #开启热部署
       additional-paths: src/main/java #设置监听目录
       exclude: static/**,public/**,WEB-INF/** #监听排除目录
-  #  cache: #缓存配置
-  #    type: redis #使用redis
+  cache: #缓存配置
+    type: redis #使用redis
   datasource: #数据库配置
-    url: jdbc:mysql://localhost:3306/mmall?characterEncoding=utf-8&useSSL=false #连接地址
+    type: com.alibaba.druid.pool.DruidDataSource #使用druid连接池
+    driver-class-name: com.mysql.cj.jdbc.Driver #连接驱动
+    url: jdbc:mysql://localhost:3306/learn?characterEncoding=utf-8&useUnicode=yes&useSSL=false #连接地址
     username: root #用户名
     password: 121837 #密码
-    driver-class-name: com.mysql.cj.jdbc.Driver #连接驱动
-  #    type: com.alibaba.druid.pool.DruidDataSource #连接池类型
-  #    druid: #连接池设置
-  #  redis: #Redis配置
-  #    host: 127.0.0.1 #ip
-  #    port: 6379 #端口号
-  #    password:  #密码
-  #    database: 1 #设置数据库
-  #    timeout: 1000 #连接超时时间（毫秒，0表示永不超时）
-  #    lettuce:
-  #      pool:
-  #        max-active: 100 #连接池最大连接数（负数表示不限制）
-  #        max-wait: -1 #连接池最大阻塞等待时间（负数表示不限制）
-  #        max-idle: 10 #连接池最大连接
-  #        min-idle: 0 #连接池最小连接
+    druid: #连接池设置
+      initial-size: 10 #最小连接数
+      max-active: 20 #最大连接数
+      min-idle: 5 #最小连接数
+      max-wait: 60000 #连接最大等待毫秒
+      test-while-idle: true #连接的时检测, 若空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      time-between-eviction-runs-millis: 60000 #作为检测的间隔时间以及testWhileIdel执行的依据
+      min-evictable-idle-time-millis: 30000 #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      validation-query: select 'x' #用来检测连接是否有效的sql 必须是一个查询语句
+      test-on-borrow: false #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      pool-prepared-statements: true #是否缓存preparedStatement,mysql5.5+建议开启
+      max-pool-prepared-statement-per-connection-size: 20 #当值大于0时poolPreparedStatements会自动修改为true
+      filters: stat,wall,log4j2 #配置扩展
+      web-stat-filter: #监控配置
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      filter: #扩展配置
+        slf4j: #日志配置
+          enabled: true
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
+          result-set-close-after-log-enabled: false
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      use-global-data-source-stat: true #合并多个DruidDataSource的监控数据
+      aop-patterns: com.cirvor.learn.service.*,com.cirvor.learn.dao.*,com.cirvor.learn.controller.*,com.cirvor.learn.mapper.*
+      stat-view-servlet: #监控页配置
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: admin
+  redis: #Redis配置
+    host: 127.0.0.1 #ip
+    port: 6379 #端口号
+    password:  #密码
+    database: 1 #设置数据库
+    timeout: 1000ms #连接超时时间（毫秒，0表示永不超时）
+    lettuce:
+      shutdown-timeout: 100ms
+      pool:
+        max-active: 100 #连接池最大连接数（负数表示不限制）
+        max-wait: -1ms #连接池最大阻塞等待时间（负数表示不限制）
+        max-idle: 10 #连接池最大连接
+        min-idle: 0 #连接池最小连接
   jackson: #json格式配置
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+#############################################################
+##
+## 日志输出配置 级别分为：ERROR、WARN、INFO、DEBUG、TRACE
+##
+#############################################################
+logging:
+  config: classpath:log4j2-prod.xml
+    #logging.path #日志文件路径
+    ##logging.file: spring.logs #设置日志文件
+    ##logging:
+    ##  level:
+    ##    root: WARN #基础日志
+    ##    org.springframework.web: WARN #web日志
+    ##    org.mybatis: WARN #mybatis日志
+    ##    com.battcn: WARN #
+  ##  file:
+  ##    max-size: 10M #单日志文件大小
+  ##    max-history: 5 #日志文件保存天数
 ############################################################
 #
 # server配置
@@ -60,30 +112,15 @@ mybatis: #mybatis
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
-#mapper: #通用Mapper配置
-#  mappers: tk.mybatis.mapper.common.Mapper
-#  not-empty: false
-#  identity: MYSQL
-#pagehelper: #分页插件配置
-#  helper-dialect: mysql
-#  reasonable: false #启用则: pageNo<1会返回第一页;pageNo>pages会查询最后一页
-#  support-methods-arguments: true
-#  params: count=countSql
-
-
-#############################################################
-##
-## 日志输出配置 级别分为：ERROR、WARN、INFO、DEBUG、TRACE
-##
-#############################################################
-#logging.path #日志文件路径
-logging.file: spring.logs #设置日志文件
-logging:
-  level:
-    root: ERROR #基础日志
-    org.springframework.web: ERROR #web日志
-    org.mybatis: ERROR #mybatis日志
-    com.battcn: ERROR #
-  file:
-    max-size: 10M #单日志文件大小
-    max-history: 5 #日志文件保存天数
+mapper: #通用Mapper配置
+  mappers: tk.mybatis.mapper.common.Mapper
+  not-empty: true
+  identity: MYSQL
+  safeDelete: true
+  safeUpdate: true
+  enum-as-simple-type: true
+pagehelper: #分页插件配置
+  helper-dialect: mysql
+  reasonable: false #启用则: pageNo<1会返回第一页;pageNo>pages会查询最后一页
+  support-methods-arguments: true
+  params: count=countSql

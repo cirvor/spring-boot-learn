@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -23,7 +22,7 @@ public class RedisCacheConfig {
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),
-                this.getRedisCacheConfigurationWithTtl(60), // 默认策略，未配置的 key 会使用这个
+                this.getRedisCacheConfigurationWithTtl(6000), // 默认策略，未配置的 key 会使用这个
                 this.getRedisCacheConfigurationMap() // 指定 key 策略
         );
     }
