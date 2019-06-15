@@ -22,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public User user(@RequestParam(value="name") String name) {
         return userService.selectUserByName(name);
     }

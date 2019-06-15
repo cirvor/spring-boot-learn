@@ -33,6 +33,7 @@ HELP.md
 
 # Log file
 *.log
+*.log.gz
 
 # BlueJ files
 *.ctxt

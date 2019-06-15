@@ -18,7 +18,7 @@ public class RedisController {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String index() {
         return "Redis index";
     }

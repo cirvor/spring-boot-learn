@@ -12,6 +12,13 @@ spring:
       enabled: true #开启热部署
       additional-paths: src/main/java #设置监听目录
       exclude: static/**,public/**,WEB-INF/** #监听排除目录
+  servlet:
+    multipart:
+      enabled: true #是否支持批量上传
+      max-file-size: 1048576 #上传文件最大大小
+      max-request-size: 10485760 #上传请求最大大小
+      file-size-threshold: 0 #文件大小阈值，当大于这个阈值时将写入到磁盘，否则存在内存中
+      resolve-lazily: false #判断是否要延迟解析文件
   cache: #缓存配置
     type: redis #使用redis
   datasource: #数据库配置

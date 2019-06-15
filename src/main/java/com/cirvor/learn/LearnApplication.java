@@ -11,8 +11,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import tk.mybatis.spring.annotation.MapperScan;
 
 
-//@EnableAsync
-//@EnableScheduling
+@EnableAsync
+@EnableScheduling
 @MapperScan(basePackages = "com.cirvor.learn.mapper")
 @EnableCaching
 @SpringBootApplication
@@ -23,7 +23,7 @@ public class LearnApplication {
     }
 
     /**
-     * 默认情况下 TaskScheduler 的 poolSize = 1
+     * 修改调度任务线程池数量
      *
      * @return 线程池
      */
