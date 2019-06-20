@@ -1,5 +1,7 @@
 package com.cirvor.learn.controller;
 
+import com.cirvor.learn.utils.ResultUtils;
+import com.cirvor.learn.vo.ResultData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
@@ -17,12 +19,19 @@ public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     @GetMapping
-    public String index() {
-        return "file index";
+    public ResultData index() {
+        return ResultUtils.success("file index");
     }
 
+    /**
+     * 单文件上传
+     *
+     * @param file 文件对象
+     * @return  ResultData
+     * @throws IOException IO异常
+     */
     @PostMapping("single-upload")
-    public Map<String, String> uploadSingle(@RequestParam(value = "file") MultipartFile file) throws IOException {
+    public ResultData uploadSingle(@RequestParam(value = "file") MultipartFile file) throws IOException {
         logger.info("[文件类型] - [{}]", file.getContentType());
         logger.info("[文件名称] - [{}]", file.getOriginalFilename());
         logger.info("[文件大小] - [{}]", file.getSize());
@@ -36,11 +45,18 @@ public class FileController {
         result.put("contentType", file.getContentType());
         result.put("fileName", file.getOriginalFilename());
         result.put("fileSize", Long.toString(file.getSize()));
-        return result;
+        return ResultUtils.success(result);
     }
 
+    /**
+     * 多文件上传
+     *
+     * @param files 文件对象数组
+     * @return ResultData
+     * @throws IOException IO异常
+     */
     @PostMapping("multi-upload")
-    public List<Map<String, String>> uploadMulti(@RequestParam("file") MultipartFile[] files) throws IOException {
+    public ResultData uploadMulti(@RequestParam("file") MultipartFile[] files) throws IOException {
         logger.error(Arrays.toString(files));
         if (files == null || files.length == 0) {
             return null;
@@ -57,6 +73,6 @@ public class FileController {
             map.put("fileSize", file.getSize() + "");
             results.add(map);
         }
-        return results;
+        return ResultUtils.success(results);
     }
 }
