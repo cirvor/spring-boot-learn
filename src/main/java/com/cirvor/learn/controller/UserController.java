@@ -8,15 +8,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Validated
 @RequestMapping("user")
 public class UserController {
     private final UserService userService;
@@ -49,7 +53,7 @@ public class UserController {
      * @return ResultData
      */
     @GetMapping("get")
-    public ResultData user(@RequestParam(value="id") int id) throws NotFoundException {
+    public ResultData user(@RequestParam(value="id") @Min(1) int id) throws NotFoundException, ConstraintViolationException {
         User user = userService.find(id);
         Optional<User> userOptional = Optional.ofNullable(user);
 
