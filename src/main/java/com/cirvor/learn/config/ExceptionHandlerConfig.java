@@ -1,6 +1,6 @@
 package com.cirvor.learn.config;
 
-import com.cirvor.learn.utils.DataEnum;
+import com.cirvor.learn.utils.HttpEnum;
 import com.cirvor.learn.utils.ResultUtils;
 import com.cirvor.learn.vo.ResultData;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -20,20 +20,20 @@ public class ExceptionHandlerConfig  extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ResultData handleException(Exception e) {
-        DataEnum dataEnum;
+        HttpEnum httpEnum;
         String msg;
 
         if (e instanceof NoHandlerFoundException) {
-            dataEnum = DataEnum.NOT_FOUND;
+            httpEnum = HttpEnum.NOT_FOUND;
         } else if (e instanceof NotFoundException) {
-            dataEnum = DataEnum.NOT_FOUND;
+            httpEnum = HttpEnum.NOT_FOUND;
         } else if (e instanceof NumberFormatException) {
-            dataEnum = DataEnum.BAD_REQUEST;
+            httpEnum = HttpEnum.BAD_REQUEST;
         } else {
-            dataEnum = DataEnum.ERROR;
+            httpEnum = HttpEnum.ERROR;
         }
         msg = e.getMessage();
 
-        return ResultUtils.error(dataEnum, msg);
+        return ResultUtils.error(httpEnum, msg);
     }
 }

@@ -1,6 +1,6 @@
 package com.cirvor.learn.utils;
 
-public enum DataEnum {
+public enum HttpEnum {
 
     SUCCESS(200, "success"),
     BAD_REQUEST(400, "bad request"),
@@ -11,7 +11,7 @@ public enum DataEnum {
     private int status;
     private String msg;
 
-    DataEnum(int status, String msg){
+    HttpEnum(int status, String msg){
         this.status = status;
         this.msg = msg;
     }

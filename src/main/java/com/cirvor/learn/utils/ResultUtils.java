@@ -9,7 +9,7 @@ public class ResultUtils {
      * @return ResultData
      */
     public static ResultData success() {
-        return new ResultData(DataEnum.SUCCESS.getStatus(), DataEnum.SUCCESS.getMsg());
+        return new ResultData(HttpEnum.SUCCESS.getStatus(), HttpEnum.SUCCESS.getMsg());
     }
 
     /**
@@ -19,29 +19,29 @@ public class ResultUtils {
      * @return ResultData
      */
     public static ResultData success(Object object) {
-        return new ResultData(DataEnum.SUCCESS.getStatus(), DataEnum.SUCCESS.getMsg(), object);
+        return new ResultData(HttpEnum.SUCCESS.getStatus(), HttpEnum.SUCCESS.getMsg(), object);
     }
 
     /**
      * 根据枚举对象返回错误信息
      *
-     * @param dataEnum 枚举对象
+     * @param httpEnum 枚举对象
      * @return ResultData
      */
-    public static ResultData error(DataEnum dataEnum)
+    public static ResultData error(HttpEnum httpEnum)
     {
-        return new ResultData(dataEnum.getStatus(), dataEnum.getMsg());
+        return new ResultData(httpEnum.getStatus(), httpEnum.getMsg());
     }
 
     /**
      * 自定义错误信息
      *
-     * @param dataEnum 枚举对象
+     * @param httpEnum 枚举对象
      * @param msg 错误信息
      * @return ResultData
      */
-    public static ResultData error(DataEnum dataEnum, String msg)
+    public static ResultData error(HttpEnum httpEnum, String msg)
     {
-        return new ResultData(dataEnum.getStatus(), msg);
+        return new ResultData(httpEnum.getStatus(), msg);
     }
 }
