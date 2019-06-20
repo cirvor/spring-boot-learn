@@ -5,7 +5,7 @@ public enum DataEnum {
     SUCCESS(200, "success"),
     BAD_REQUEST(400, "bad request"),
     UNAUTHORIZED(401, "unauthorized"),
-    NOT_FOUND(401, "not found"),
+    NOT_FOUND(404, "not found"),
     ERROR(500, "error");
 
     private int status;
@@ -20,15 +20,7 @@ public enum DataEnum {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public String getMsg() {
         return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 }

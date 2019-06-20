@@ -9,21 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/")
-    public String home()
+    public ResultData home()
     {
-        return "Home Page";
+        return ResultUtils.success("Home Page");
     }
 
     @GetMapping("hello")
-    public String hello()
+    public ResultData hello()
     {
-        return "Hello World";
+        return ResultUtils.success("Hello World");
     }
 
     @GetMapping("success")
     public ResultData success()
     {
-//        return ResultUtils.success();
-        return ResultUtils.success("success");
+        return ResultUtils.success();
     }
 }

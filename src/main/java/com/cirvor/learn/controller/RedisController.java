@@ -1,5 +1,7 @@
 package com.cirvor.learn.controller;
 
+import com.cirvor.learn.utils.ResultUtils;
+import com.cirvor.learn.vo.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +21,8 @@ public class RedisController {
     }
 
     @GetMapping
-    public String index() {
-        return "Redis index";
+    public ResultData index() {
+        return ResultUtils.success("Redis index");
     }
 
     /**
@@ -30,9 +32,11 @@ public class RedisController {
      * @return
      */
     @GetMapping("key")
-    public String key(@RequestParam(defaultValue = "value") String value) {
+    public ResultData key(@RequestParam(defaultValue = "value") String value) {
         stringRedisTemplate.opsForValue().set("k1", value);
-        return stringRedisTemplate.opsForValue().get("k1");
+        Object cache = stringRedisTemplate.opsForValue().get("k1");
+
+        return ResultUtils.success(cache);
     }
 
     /**
@@ -42,9 +46,11 @@ public class RedisController {
      * @return
      */
     @GetMapping("hash")
-    public Object hash(@RequestParam(defaultValue = "value") String value) {
+    public ResultData hash(@RequestParam(defaultValue = "value") String value) {
         stringRedisTemplate.opsForHash().put("h1","map1", value);
-        return stringRedisTemplate.opsForHash().get("h1","map1");
+        Object cache = stringRedisTemplate.opsForHash().get("h1","map1");
+
+        return ResultUtils.success(cache);
     }
 
     /**
@@ -54,9 +60,11 @@ public class RedisController {
      * @return
      */
     @GetMapping("list")
-    public String list(@RequestParam(defaultValue = "value") String value) {
+    public ResultData list(@RequestParam(defaultValue = "value") String value) {
         stringRedisTemplate.opsForList().leftPush("l1", value);
-        return stringRedisTemplate.opsForList().rightPop("l1");
+        Object cache = stringRedisTemplate.opsForList().rightPop("l1");
+
+        return ResultUtils.success(cache);
     }
 
     /**
@@ -66,9 +74,11 @@ public class RedisController {
      * @return
      */
     @GetMapping("set")
-    public Set<String> set(@RequestParam(defaultValue = "value") String value) {
+    public ResultData set(@RequestParam(defaultValue = "value") String value) {
         stringRedisTemplate.opsForSet().add("s1", value);
-        return stringRedisTemplate.opsForSet().members("s1");
+        Set<String> cacheList = stringRedisTemplate.opsForSet().members("s1");
+
+        return ResultUtils.success(cacheList);
     }
 
     /**
@@ -78,9 +88,10 @@ public class RedisController {
      * @return
      */
     @GetMapping("zset")
-    public Set<String> zSet(@RequestParam(defaultValue = "value") String value, @RequestParam(defaultValue = "1") int score) {
+    public ResultData zSet(@RequestParam(defaultValue = "value") String value, @RequestParam(defaultValue = "1") int score) {
         System.out.println(score);
         stringRedisTemplate.opsForZSet().add("zs1", value, score);
-        return stringRedisTemplate.opsForZSet().range("zs1", 0, -1);
+        Set<String> cacheList = stringRedisTemplate.opsForZSet().range("zs1", 0, -1);
+        return ResultUtils.success(cacheList);
     }
 }
