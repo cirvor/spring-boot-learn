@@ -58,8 +58,10 @@ public class UserController {
     public ResultData user(HttpServletRequest request) throws
             NumberFormatException,
             NotFoundException {
-        String id = request.getParameter("id");
-        User user = userService.find(Integer.parseInt(id));
+        //获取参数id
+        int id = Integer.parseInt(request.getParameter("id"));
+        if (id < 1) throw new NumberFormatException("ID过小");
+        User user = userService.find(id);
         Optional<User> userOptional = Optional.ofNullable(user);
 
         return userOptional
