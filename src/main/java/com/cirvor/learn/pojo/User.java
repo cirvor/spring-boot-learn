@@ -1,10 +1,11 @@
 package com.cirvor.learn.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import org.hibernate.validator.constraints.Length;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Table(name="user")
 public class User implements Serializable {
@@ -15,6 +16,8 @@ public class User implements Serializable {
     /**
      * 用户名
      */
+    @NotBlank(message = "name 不允许为空")
+    @Length(min = 3, max = 10, message = "name 长度必须在 {min} - {max} 之间")
     private String name;
 
     /**
@@ -26,6 +29,7 @@ public class User implements Serializable {
     /**
      * 手机号
      */
+    @NotBlank(message = "name 不允许为空")
     private String phone;
 
     /**

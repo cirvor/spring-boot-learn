@@ -20,7 +20,7 @@ public class BasicErrorController implements ErrorController {
     @RequestMapping("/error")
     public ResultData handleError(HttpServletRequest request){
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        if(statusCode == 400) {
+        if (statusCode == 400) {
             return ResultUtils.error(HttpEnum.BAD_REQUEST);
         } else if (statusCode == 401) {
             return ResultUtils.error(HttpEnum.UNAUTHORIZED);

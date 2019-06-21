@@ -44,4 +44,16 @@ public class ResultUtils {
     {
         return new ResultData(httpEnum.getStatus(), msg);
     }
+
+    /**
+     * 自定义错误信息
+     *
+     * @param httpEnum 枚举对象
+     * @param msg 错误信息
+     * @return ResultData
+     */
+    public static ResultData error(HttpEnum httpEnum, String msg, Object object)
+    {
+        return new ResultData(httpEnum.getStatus(), msg, object);
+    }
 }

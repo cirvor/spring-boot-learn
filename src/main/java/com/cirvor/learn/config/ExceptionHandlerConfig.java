@@ -3,13 +3,9 @@ package com.cirvor.learn.config;
 import com.cirvor.learn.utils.HttpEnum;
 import com.cirvor.learn.utils.ResultUtils;
 import com.cirvor.learn.vo.ResultData;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class ExceptionHandlerConfig  extends ResponseEntityExceptionHandler {
@@ -25,16 +21,21 @@ public class ExceptionHandlerConfig  extends ResponseEntityExceptionHandler {
         HttpEnum httpEnum;
         String msg;
 
-        if (e instanceof NoHandlerFoundException) {
-            httpEnum = HttpEnum.NOT_FOUND;
-        } else if (e instanceof NotFoundException) {
-            httpEnum = HttpEnum.NOT_FOUND;
-        } else if (e instanceof NumberFormatException) {
-            httpEnum = HttpEnum.BAD_REQUEST;
-        } else if (e instanceof ConstraintViolationException) {
-            httpEnum = HttpEnum.BAD_REQUEST;
-        } else {
-            httpEnum = HttpEnum.ERROR;
+        switch (e.getClass().getSimpleName()) {
+            case "NoHandlerFoundException":
+                httpEnum = HttpEnum.NOT_FOUND;
+                break;
+            case "NotFoundException":
+                httpEnum = HttpEnum.NOT_FOUND;
+                break;
+            case "NumberFormatException":
+                httpEnum = HttpEnum.BAD_REQUEST;
+                break;
+            case "ConstraintViolationException":
+                httpEnum = HttpEnum.BAD_REQUEST;
+                break;
+            default:
+                httpEnum = HttpEnum.ERROR;
         }
         msg = e.getMessage();
 
