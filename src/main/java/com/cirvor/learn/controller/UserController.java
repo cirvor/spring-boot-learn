@@ -2,12 +2,15 @@ package com.cirvor.learn.controller;
 
 import com.cirvor.learn.pojo.User;
 import com.cirvor.learn.service.UserService;
+import com.cirvor.learn.utils.HttpEnum;
 import com.cirvor.learn.utils.ResultUtils;
 import com.cirvor.learn.vo.ResultData;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +64,24 @@ public class UserController {
         //获取参数id
         int id = Integer.parseInt(request.getParameter("id"));
         if (id < 1) throw new NumberFormatException("ID过小");
+        User user = userService.find(id);
+        Optional<User> userOptional = Optional.ofNullable(user);
+
+        return userOptional
+                .map(ResultUtils::success)
+                .orElseThrow(() -> new NotFoundException("用户不存在"));
+    }
+
+    /**
+     * 根据id获取用户数据
+     *
+     * @param id 请求参数
+     * @return ResultData
+     * @throws NumberFormatException 转换异常
+     * @throws NotFoundException 找不到对象
+     */
+    @GetMapping("user-info")
+    public ResultData userInfo(@RequestParam(value = "id") int id) throws NumberFormatException, NotFoundException {
         User user = userService.find(id);
         Optional<User> userOptional = Optional.ofNullable(user);
 
