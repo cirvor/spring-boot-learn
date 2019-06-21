@@ -22,19 +22,19 @@ import java.util.Set;
 @ControllerAdvice
 public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { ConstraintViolationException.class })
-    public ResponseEntity<String> handle(ConstraintViolationException e) {
-        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-        StringBuilder strBuilder = new StringBuilder();
-        for (ConstraintViolation<?> violation : violations) {
-            strBuilder.append(violation.getInvalidValue() + " " + violation.getMessage() + "\n");
-        }
-        String result = strBuilder.toString();
-        return new ResponseEntity<String>("ConstraintViolation:" + result, HttpStatus.BAD_REQUEST);
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception e,
+                                                             Object body,
+                                                             HttpHeaders headers,
+                                                             HttpStatus status,
+                                                             WebRequest request) {
+        return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @Override
-    protected ResponseEntity<Object> handleBindException(BindException e, HttpHeaders headers, HttpStatus status,
+    protected ResponseEntity<Object> handleBindException(BindException e,
+                                                         HttpHeaders headers,
+                                                         HttpStatus status,
                                                          WebRequest request) {
         return new ResponseEntity<Object>("BindException:" + buildMessages(e.getBindingResult()),
                 HttpStatus.BAD_REQUEST);
@@ -42,14 +42,18 @@ public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
         return new ResponseEntity<Object>("MethodArgumentNotValid:" + buildMessages(e.getBindingResult()),
                 HttpStatus.BAD_REQUEST);
     }
 
     @Override
     public ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException e,
-                                                                       HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                       HttpHeaders headers,
+                                                                       HttpStatus status,
+                                                                       WebRequest request) {
         return new ResponseEntity<Object>("ParamMissing:" + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
