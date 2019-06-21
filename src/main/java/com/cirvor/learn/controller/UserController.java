@@ -8,19 +8,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Validated
 @RequestMapping("user")
 public class UserController {
     private final UserService userService;
@@ -37,7 +36,8 @@ public class UserController {
      * @return ResultData
      */
     @GetMapping
-    public ResultData user(@RequestParam(value="name") String name) throws NotFoundException {
+    public ResultData user(@RequestParam(value="name") String name) throws
+            NotFoundException {
         User user = userService.selectUserByName(name);
         Optional<User> userOptional = Optional.ofNullable(user);
 
@@ -49,12 +49,17 @@ public class UserController {
     /**
      * 根据id获取用户数据
      *
-     * @param id ID
+     * @param request 请求参数
      * @return ResultData
+     * @throws NumberFormatException 转换异常
+     * @throws NotFoundException 找不到对象
      */
     @GetMapping("get")
-    public ResultData user(@RequestParam(value="id") @Min(1) int id) throws NotFoundException, ConstraintViolationException {
-        User user = userService.find(id);
+    public ResultData user(HttpServletRequest request) throws
+            NumberFormatException,
+            NotFoundException {
+        String id = request.getParameter("id");
+        User user = userService.find(Integer.parseInt(id));
         Optional<User> userOptional = Optional.ofNullable(user);
 
         return userOptional
