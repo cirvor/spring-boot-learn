@@ -31,8 +31,8 @@ public class UserController {
      * @param name 用户名
      * @return ResultData
      */
-    @GetMapping
-    public ResultData user(@RequestParam(value="name") String name) throws
+    @GetMapping("name/{name}")
+    public ResultData user(@PathVariable("name") String name) throws
             NotFoundException {
         User user = userService.selectUserByName(name);
         Optional<User> userOptional = Optional.ofNullable(user);
