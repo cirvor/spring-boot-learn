@@ -26,7 +26,7 @@ public class BasicErrorController implements ErrorController {
             return ResultUtils.error(HttpEnum.UNAUTHORIZED);
         } else if(statusCode == 404) {
             String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-            return ResultUtils.error(HttpEnum.NOT_FOUND, requestUri + " 路径不存在");
+            return ResultUtils.error(HttpEnum.NOT_FOUND, requestUri + " is not handled");
         } else {
             String msg = (String) request.getAttribute("javax.servlet.error.message");
             return ResultUtils.error(HttpEnum.NOT_FOUND, msg);

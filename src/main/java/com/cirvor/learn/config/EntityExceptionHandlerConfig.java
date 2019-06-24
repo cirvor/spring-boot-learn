@@ -1,5 +1,7 @@
 package com.cirvor.learn.config;
 
+import com.cirvor.learn.utils.HttpEnum;
+import com.cirvor.learn.utils.ResultUtils;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,49 +20,102 @@ import java.util.List;
 @ControllerAdvice
 public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler {
 
+    /**
+     * 处理全局异常
+     *
+     * @param e 全局异常
+     * @param body 返回数据
+     * @param headers 请求头
+     * @param status 异常状态
+     * @param request 请求参数
+     * @return ResponseEntity
+     */
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception e,
                                                              Object body,
                                                              HttpHeaders headers,
                                                              HttpStatus status,
                                                              WebRequest request) {
-        return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 处理参数绑定异常
+     *
+     * @param e 绑定异常
+     * @param headers 请求头
+     * @param status 异常状态
+     * @param request 请求参数
+     * @return ResponseEntity
+     */
     @Override
     protected ResponseEntity<Object> handleBindException(BindException e,
                                                          HttpHeaders headers,
                                                          HttpStatus status,
                                                          WebRequest request) {
-        return new ResponseEntity<Object>("BindException:" + buildMessages(e.getBindingResult()),
+        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "BindException:" + buildMessages(e.getBindingResult())),
                 HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 处理请求参数验证失败异常
+     *
+     * @param e 验证失败异常
+     * @param headers 请求头
+     * @param status 异常状态
+     * @param request 请求参数
+     * @return ResponseEntity
+     */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
-        return new ResponseEntity<Object>("MethodArgumentNotValid:" + buildMessages(e.getBindingResult()),
+        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "MethodArgumentNotValid:" + buildMessages(e.getBindingResult())),
                 HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 处理缺少参数异常
+     *
+     * @param e 缺少参数异常
+     * @param headers 请求头
+     * @param status 异常状态
+     * @param request 请求参数
+     * @return ResponseEntity
+     */
     @Override
     public ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException e,
                                                                        HttpHeaders headers,
                                                                        HttpStatus status,
                                                                        WebRequest request) {
-        return new ResponseEntity<Object>("ParamMissing:" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "ParamMissing:" + e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 处理参数匹配失败异常
+     *
+     * @param e 参数匹配失败异常
+     * @param headers 请求头
+     * @param status 异常状态
+     * @param request 请求参数
+     * @return ResponseEntity
+     */
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException e,
                                                         HttpHeaders headers,
                                                         HttpStatus status,
                                                         WebRequest request) {
-        return new ResponseEntity<Object>("TypeMissMatch:" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "TypeMissMatch:" + e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 将List数据转为String
+     *
+     * @param result 数据
+     * @return 字符串
+     */
     private String buildMessages(BindingResult result) {
         StringBuilder resultBuilder = new StringBuilder();
 

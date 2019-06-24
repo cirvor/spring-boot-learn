@@ -2,24 +2,17 @@ package com.cirvor.learn.controller;
 
 import com.cirvor.learn.pojo.User;
 import com.cirvor.learn.service.UserService;
-import com.cirvor.learn.utils.HttpEnum;
 import com.cirvor.learn.utils.ResultUtils;
 import com.cirvor.learn.vo.ResultData;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -115,5 +108,16 @@ public class UserController {
         List<User> userList = userService.all();
 
         return ResultUtils.success(userList);
+    }
+
+    /**
+     * 获取所有请求
+     *
+     * @param value 请求参数
+     * @return ResultData
+     */
+    @PostMapping("info")
+    public ResultData info(@RequestParam Map<String, String> value) {
+        return ResultUtils.success(value);
     }
 }
