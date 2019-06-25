@@ -52,6 +52,7 @@ spring:
         reset-enable: true
         login-username: admin
         login-password: admin
+      connection-init-sqls: "set names utf8mb4"
   redis: #Redis配置
     host: 127.0.0.1 #ip
     port: 6379 #端口号
