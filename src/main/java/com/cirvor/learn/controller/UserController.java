@@ -1,6 +1,7 @@
 package com.cirvor.learn.controller;
 
 import com.cirvor.learn.pojo.User;
+import com.cirvor.learn.service.UserRoleService;
 import com.cirvor.learn.service.UserService;
 import com.cirvor.learn.utils.ResultUtils;
 import com.cirvor.learn.vo.ResultData;
@@ -19,10 +20,12 @@ import java.util.Optional;
 @RequestMapping("user")
 public class UserController {
     private final UserService userService;
+    private final UserRoleService userRoleService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRoleService userRoleService) {
         this.userService = userService;
+        this.userRoleService = userRoleService;
     }
 
     /**
@@ -119,5 +122,10 @@ public class UserController {
     @PostMapping("info")
     public ResultData info(@RequestParam Map<String, String> value) {
         return ResultUtils.success(value);
+    }
+
+    @GetMapping("role")
+    public ResultData role(@RequestParam int user_id) {
+        return ResultUtils.success(userRoleService.listByUserId(user_id));
     }
 }

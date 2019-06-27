@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.BaseMapper;
 
 @Mapper
-@Component(value = "userMapper")
+@Component
 public interface UserMapper extends BaseMapper<User> {
     /**
      * 通过名字查询用户信息
