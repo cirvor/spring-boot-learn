@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("name/{name}")
     public ResultData user(@PathVariable("name") String name) throws
             NotFoundException {
-        User user = userService.selectUserByName(name);
+        User user = userService.selectUserByUsername(name);
         Optional<User> userOptional = Optional.ofNullable(user);
 
         return userOptional

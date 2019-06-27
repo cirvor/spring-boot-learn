@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据名字查找用户
      */
-    public User selectUserByName(String name) {
-        return userMapper.findUserByName(name);
+    public User selectUserByUsername(String username) {
+        return userMapper.findUserByUsername(username);
     }
 
     /**

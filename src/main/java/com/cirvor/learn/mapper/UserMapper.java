@@ -12,7 +12,7 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 通过名字查询用户信息
      */
-    User findUserByName(String name);
+    User findUserByUsername(String username);
 
     /**
      * 查询所有用户信息

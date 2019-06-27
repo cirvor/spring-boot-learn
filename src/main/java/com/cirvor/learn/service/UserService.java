@@ -6,7 +6,7 @@ import com.github.pagehelper.Page;
 import java.util.List;
 
 public interface UserService {
-    User selectUserByName(String name);
+    User selectUserByUsername(String name);
 
     Page<User> selectAllUser();
 
