@@ -3,7 +3,7 @@ package com.cirvor.learn.controller;
 import com.cirvor.learn.pojo.User;
 import com.cirvor.learn.service.UserRoleService;
 import com.cirvor.learn.service.UserService;
-import com.cirvor.learn.utils.ResultUtils;
+import com.cirvor.learn.util.ResultUtil;
 import com.cirvor.learn.vo.ResultData;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -41,7 +41,7 @@ public class UserController {
         Optional<User> userOptional = Optional.ofNullable(user);
 
         return userOptional
-                .map(ResultUtils::success)
+                .map(ResultUtil::success)
                 .orElseThrow(() -> new NotFoundException("用户不存在"));
     }
 
@@ -64,7 +64,7 @@ public class UserController {
         Optional<User> userOptional = Optional.ofNullable(user);
 
         return userOptional
-                .map(ResultUtils::success)
+                .map(ResultUtil::success)
                 .orElseThrow(() -> new NotFoundException("用户不存在"));
     }
 
@@ -82,7 +82,7 @@ public class UserController {
         Optional<User> userOptional = Optional.ofNullable(user);
 
         return userOptional
-                .map(ResultUtils::success)
+                .map(ResultUtil::success)
                 .orElseThrow(() -> new NotFoundException("用户不存在"));
     }
 
@@ -98,7 +98,7 @@ public class UserController {
         PageHelper.startPage(pageNo,pageSize);
         PageInfo<User> userPageInfo = new PageInfo<>(userService.selectAllUser());
 
-        return ResultUtils.success(userPageInfo);
+        return ResultUtil.success(userPageInfo);
     }
 
     /**
@@ -110,7 +110,7 @@ public class UserController {
     public ResultData all() {
         List<User> userList = userService.all();
 
-        return ResultUtils.success(userList);
+        return ResultUtil.success(userList);
     }
 
     /**
@@ -121,11 +121,11 @@ public class UserController {
      */
     @PostMapping("info")
     public ResultData info(@RequestParam Map<String, String> value) {
-        return ResultUtils.success(value);
+        return ResultUtil.success(value);
     }
 
     @GetMapping("role")
     public ResultData role(@RequestParam int user_id) {
-        return ResultUtils.success(userRoleService.listByUserId(user_id));
+        return ResultUtil.success(userRoleService.listByUserId(user_id));
     }
 }

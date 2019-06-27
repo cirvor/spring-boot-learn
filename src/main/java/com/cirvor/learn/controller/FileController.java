@@ -1,6 +1,6 @@
 package com.cirvor.learn.controller;
 
-import com.cirvor.learn.utils.ResultUtils;
+import com.cirvor.learn.util.ResultUtil;
 import com.cirvor.learn.vo.ResultData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class FileController {
 
     @GetMapping
     public ResultData index() {
-        return ResultUtils.success("file index");
+        return ResultUtil.success("file index");
     }
 
     /**
@@ -45,7 +45,7 @@ public class FileController {
         result.put("contentType", file.getContentType());
         result.put("fileName", file.getOriginalFilename());
         result.put("fileSize", Long.toString(file.getSize()));
-        return ResultUtils.success(result);
+        return ResultUtil.success(result);
     }
 
     /**
@@ -73,6 +73,6 @@ public class FileController {
             map.put("fileSize", file.getSize() + "");
             results.add(map);
         }
-        return ResultUtils.success(results);
+        return ResultUtil.success(results);
     }
 }

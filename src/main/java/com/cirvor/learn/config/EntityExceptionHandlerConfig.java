@@ -1,7 +1,7 @@
 package com.cirvor.learn.config;
 
-import com.cirvor.learn.utils.HttpEnum;
-import com.cirvor.learn.utils.ResultUtils;
+import com.cirvor.learn.util.HttpEnum;
+import com.cirvor.learn.util.ResultUtil;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler
                                                              HttpStatus status,
                                                              WebRequest request) {
 
-        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(ResultUtil.error(HttpEnum.BAD_REQUEST, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -54,7 +54,7 @@ public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler
                                                          HttpHeaders headers,
                                                          HttpStatus status,
                                                          WebRequest request) {
-        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "BindException:" + buildMessages(e.getBindingResult())),
+        return new ResponseEntity<Object>(ResultUtil.error(HttpEnum.BAD_REQUEST, "BindException:" + buildMessages(e.getBindingResult())),
                 HttpStatus.BAD_REQUEST);
     }
 
@@ -72,7 +72,7 @@ public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
-        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "MethodArgumentNotValid:" + buildMessages(e.getBindingResult())),
+        return new ResponseEntity<Object>(ResultUtil.error(HttpEnum.BAD_REQUEST, "MethodArgumentNotValid:" + buildMessages(e.getBindingResult())),
                 HttpStatus.BAD_REQUEST);
     }
 
@@ -90,7 +90,7 @@ public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler
                                                                        HttpHeaders headers,
                                                                        HttpStatus status,
                                                                        WebRequest request) {
-        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "ParamMissing:" + e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(ResultUtil.error(HttpEnum.BAD_REQUEST, "ParamMissing:" + e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -107,7 +107,7 @@ public class EntityExceptionHandlerConfig extends ResponseEntityExceptionHandler
                                                         HttpHeaders headers,
                                                         HttpStatus status,
                                                         WebRequest request) {
-        return new ResponseEntity<Object>(ResultUtils.error(HttpEnum.BAD_REQUEST, "TypeMissMatch:" + e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Object>(ResultUtil.error(HttpEnum.BAD_REQUEST, "TypeMissMatch:" + e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     /**

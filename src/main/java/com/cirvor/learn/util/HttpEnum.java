@@ -1,4 +1,4 @@
-package com.cirvor.learn.utils;
+package com.cirvor.learn.util;
 
 public enum HttpEnum {
 

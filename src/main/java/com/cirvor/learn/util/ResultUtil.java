@@ -1,8 +1,8 @@
-package com.cirvor.learn.utils;
+package com.cirvor.learn.util;
 
 import com.cirvor.learn.vo.ResultData;
 
-public class ResultUtils {
+public class ResultUtil {
     /**
      * 成功但不返回数据
      *

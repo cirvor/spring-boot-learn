@@ -1,6 +1,6 @@
 package com.cirvor.learn.controller;
 
-import com.cirvor.learn.utils.ResultUtils;
+import com.cirvor.learn.util.ResultUtil;
 import com.cirvor.learn.vo.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,7 +22,7 @@ public class RedisController {
 
     @GetMapping
     public ResultData index() {
-        return ResultUtils.success("Redis index");
+        return ResultUtil.success("Redis index");
     }
 
     /**
@@ -36,7 +36,7 @@ public class RedisController {
         stringRedisTemplate.opsForValue().set("k1", value);
         Object cache = stringRedisTemplate.opsForValue().get("k1");
 
-        return ResultUtils.success(cache);
+        return ResultUtil.success(cache);
     }
 
     /**
@@ -50,7 +50,7 @@ public class RedisController {
         stringRedisTemplate.opsForHash().put("h1","map1", value);
         Object cache = stringRedisTemplate.opsForHash().get("h1","map1");
 
-        return ResultUtils.success(cache);
+        return ResultUtil.success(cache);
     }
 
     /**
@@ -64,7 +64,7 @@ public class RedisController {
         stringRedisTemplate.opsForList().leftPush("l1", value);
         Object cache = stringRedisTemplate.opsForList().rightPop("l1");
 
-        return ResultUtils.success(cache);
+        return ResultUtil.success(cache);
     }
 
     /**
@@ -78,7 +78,7 @@ public class RedisController {
         stringRedisTemplate.opsForSet().add("s1", value);
         Set<String> cacheList = stringRedisTemplate.opsForSet().members("s1");
 
-        return ResultUtils.success(cacheList);
+        return ResultUtil.success(cacheList);
     }
 
     /**
@@ -92,6 +92,6 @@ public class RedisController {
         System.out.println(score);
         stringRedisTemplate.opsForZSet().add("zs1", value, score);
         Set<String> cacheList = stringRedisTemplate.opsForZSet().range("zs1", 0, -1);
-        return ResultUtils.success(cacheList);
+        return ResultUtil.success(cacheList);
     }
 }

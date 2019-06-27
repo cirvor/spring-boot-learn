@@ -1,7 +1,7 @@
 package com.cirvor.learn.config;
 
-import com.cirvor.learn.utils.HttpEnum;
-import com.cirvor.learn.utils.ResultUtils;
+import com.cirvor.learn.util.HttpEnum;
+import com.cirvor.learn.util.ResultUtil;
 import com.cirvor.learn.vo.ResultData;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -39,6 +39,6 @@ public class ExceptionHandlerConfig  extends ResponseEntityExceptionHandler {
         }
         msg = e.getMessage();
 
-        return ResultUtils.error(httpEnum, msg);
+        return ResultUtil.error(httpEnum, msg);
     }
 }
