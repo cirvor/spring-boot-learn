@@ -16,8 +16,8 @@ public class User implements Serializable {
     /**
      * 用户名
      */
-    @NotBlank(message = "name 不允许为空")
-    @Length(min = 3, max = 10, message = "name 长度必须在 {min} - {max} 之间")
+    @NotBlank(message = "username 不允许为空")
+    @Length(min = 3, max = 10, message = "username 长度必须在 {min} - {max} 之间")
     private String username;
 
     /**
@@ -29,7 +29,7 @@ public class User implements Serializable {
     /**
      * 手机号
      */
-    @NotBlank(message = "name 不允许为空")
+    @NotBlank(message = "phone 不允许为空")
     private String phone;
 
     /**
@@ -61,7 +61,7 @@ public class User implements Serializable {
     /**
      * 获取用户名
      *
-     * @return name - 用户名
+     * @return username - 用户名
      */
     public String getUsername() {
         return username;
@@ -70,9 +70,9 @@ public class User implements Serializable {
     /**
      * 设置用户名
      *
-     * @param name 用户名
+     * @param username 用户名
      */
-    public void setUsername(String name) {
+    public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
     }
 
