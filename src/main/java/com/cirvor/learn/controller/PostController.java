@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +22,7 @@ public class PostController {
     public PostController(PostService postService) {
         this.postService = postService;
     }
+
     /**
      * 根据id获取文章内容
      *
@@ -43,5 +44,17 @@ public class PostController {
         return postOptional
                 .map(ResultUtil::success)
                 .orElseThrow(() -> new NotFoundException("用户不存在"));
+    }
+
+    /**
+     * 根据id获取文章内容
+     *
+     * @return ResultData
+     */
+    @GetMapping("all")
+    public ResultData all() {
+        List<Post> postList = postService.all();
+
+        return ResultUtil.success(postList);
     }
 }

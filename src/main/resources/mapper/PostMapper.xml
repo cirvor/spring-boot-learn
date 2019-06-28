@@ -29,4 +29,19 @@
     -->
     content
   </sql>
+
+  <select id="findById" parameterType="int" resultType="com.cirvor.learn.pojo.Post">
+    SELECT
+           p.id, p.title, p.content, p.created_at, p.updated_at, u.username
+    FROM post AS p
+    LEFT JOIN user AS u ON p.user_id = u.id
+    WHERE p.id = #{id}
+  </select>
+
+  <select id="all" resultType="com.cirvor.learn.pojo.Post">
+    SELECT
+           p.id, p.title, p.content, p.created_at, p.updated_at, u.username
+    FROM post AS p, user AS u
+    WHERE p.user_id = u.id
+  </select>
 </mapper>

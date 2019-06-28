@@ -29,6 +29,10 @@ public class PostServiceImpl implements PostService {
      * @return 文章
      */
     public Post find(int id) {
-        return  postMapper.selectByPrimaryKey(id);
+        return  postMapper.findById(id);
+    }
+
+    public List<Post> all() {
+        return postMapper.all();
     }
 }
