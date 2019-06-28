@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserService {
     User selectUserByUsername(String name);
+    
+    List<User> getUserByUsername(String name);
 
     Page<User> selectAllUser();
 

@@ -25,6 +25,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.findUserByUsername(username);
     }
 
+    public List<User> getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
+    }
+
     /**
      * 查找所有用户
      */

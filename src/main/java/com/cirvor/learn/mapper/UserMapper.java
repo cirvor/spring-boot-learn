@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.common.BaseMapper;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface UserMapper extends BaseMapper<User> {
@@ -19,6 +21,12 @@ public interface UserMapper extends BaseMapper<User> {
      */
     @Select("SELECT * FROM user")
     Page<User> findAllUser();
+
+    /**
+     * 查询所有用户信息
+     */
+    @Select("SELECT * FROM user where username=#{username}")
+    List<User> getUserByUsername(String username);
 
 //    /**
 //     * 插入用户信息
