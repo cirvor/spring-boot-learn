@@ -33,6 +33,6 @@ public class PostServiceImpl implements PostService {
     }
 
     public List<Post> all() {
-        return postMapper.all();
+        return postMapper.allWithUser();
     }
 }

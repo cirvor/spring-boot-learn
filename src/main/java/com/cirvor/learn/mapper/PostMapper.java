@@ -12,4 +12,6 @@ public interface PostMapper extends BaseMapper<Post> {
     Post findById(int id);
 
     List<Post> all();
+
+    List<Post> allWithUser();
 }

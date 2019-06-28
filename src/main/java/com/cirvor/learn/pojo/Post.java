@@ -23,8 +23,11 @@ public class Post {
 
     private String content;
 
-    //发帖人名称
+    //方式1：发帖人名称
     private String username;
+
+    //方式2：用户对象
+    private User user;
 
     public String getUsername() {
         return username;
@@ -32,6 +35,14 @@ public class Post {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**

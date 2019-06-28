@@ -1,47 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cirvor.learn.mapper.PostMapper">
-  <resultMap id="BaseResultMap" type="com.cirvor.learn.pojo.Post">
+    <resultMap id="BaseResultMap" type="com.cirvor.learn.pojo.Post">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cirvor.learn.pojo.Post">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, user_id, title, created_at, updated_at
-  </sql>
-  <sql id="Blob_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    content
-  </sql>
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <resultMap id="PostUserResultMap" type="com.cirvor.learn.pojo.Post">
+        <!--
+          使用一对一关联数据
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+        <association property="user" javaType="com.cirvor.learn.pojo.User">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="phone" property="phone"/>
+        </association>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cirvor.learn.pojo.Post">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        id, user_id, title, created_at, updated_at
+    </sql>
+    <sql id="Blob_Column_List">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        content
+    </sql>
 
-  <select id="findById" parameterType="int" resultType="com.cirvor.learn.pojo.Post">
-    SELECT
-           p.id, p.title, p.content, p.created_at, p.updated_at, u.username
-    FROM post AS p
-    LEFT JOIN user AS u ON p.user_id = u.id
-    WHERE p.id = #{id}
-  </select>
+    <select id="findById" parameterType="int" resultType="com.cirvor.learn.pojo.Post">
+        SELECT
+               p.id, p.title, p.content, p.created_at, p.updated_at, u.username
+        FROM post AS p
+        LEFT JOIN user AS u ON p.user_id = u.id
+        WHERE p.id = #{id}
+    </select>
 
-  <select id="all" resultType="com.cirvor.learn.pojo.Post">
-    SELECT
-           p.id, p.title, p.content, p.created_at, p.updated_at, u.username
-    FROM post AS p, user AS u
-    WHERE p.user_id = u.id
-  </select>
+    <select id="all" resultType="com.cirvor.learn.pojo.Post">
+        SELECT
+               p.id, p.title, p.content, p.created_at, p.updated_at, u.username
+        FROM post AS p, user AS u
+        WHERE p.user_id = u.id
+    </select>
+    <select id="allWithUser" resultMap="PostUserResultMap">
+        SELECT p.id, p.title, p.content, p.created_at, p.updated_at, u.username, u.phone
+        FROM post AS p, user AS u
+        WHERE p.user_id = u.id
+    </select>
 </mapper>
