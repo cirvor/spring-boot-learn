@@ -2,7 +2,7 @@ package com.cirvor.learn.controller;
 
 import com.cirvor.learn.pojo.User;
 import com.cirvor.learn.pojo.UserPost;
-import com.cirvor.learn.service.UserRoleService;
+import com.cirvor.learn.pojo.UserRole;
 import com.cirvor.learn.service.UserService;
 import com.cirvor.learn.util.ResultUtil;
 import com.cirvor.learn.vo.ResultData;
@@ -20,12 +20,10 @@ import java.util.Optional;
 @RequestMapping("user")
 public class UserController {
     private final UserService userService;
-    private final UserRoleService userRoleService;
 
     @Autowired
-    public UserController(UserService userService, UserRoleService userRoleService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRoleService = userRoleService;
     }
 
     /**
@@ -125,7 +123,13 @@ public class UserController {
     }
 
     @GetMapping("role")
-    public ResultData role(@RequestParam int user_id) {
-        return ResultUtil.success(userRoleService.listByUserId(user_id));
+    public ResultData roles(@RequestParam(value = "id") int id) throws NumberFormatException,
+            NotFoundException {
+        UserRole userRole = userService.findUserWithRoles(id);
+        Optional<UserRole> userOptional = Optional.ofNullable(userRole);
+
+        return userOptional
+                .map(ResultUtil::success)
+                .orElseThrow(() -> new NotFoundException("用户不存在"));
     }
 }

@@ -12,6 +12,14 @@
         <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
     </resultMap>
+    <!--用户角色映射-->
+    <resultMap id="UserRolesResultMap" type="com.cirvor.learn.pojo.UserRole" extends="BaseResultMap">
+        <collection property="roles" ofType="com.cirvor.learn.pojo.Role">
+            <id column="rid" jdbcType="INTEGER" property="id" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
+        </collection>
+    </resultMap>
+    <!--用户文章映射-->
     <resultMap id="UserWithPostsResultMap" type="com.cirvor.learn.pojo.UserPost" extends="BaseResultMap">
         <collection property="posts" ofType="com.cirvor.learn.pojo.Post">
             <id column="pid" jdbcType="INTEGER" property="id" />
@@ -29,6 +37,13 @@
     </sql>
     <select id="findUserByUsername" parameterType="String" resultType="com.cirvor.learn.pojo.User">
         SELECT * FROM user WHERE username = #{username}
+    </select>
+    <select id="findUserWithRoles" parameterType="int" resultMap="UserRolesResultMap">
+        SELECT u.*, r.id AS rid, r.name
+        FROM user AS u
+                 LEFT JOIN user_role AS ur ON ur.user_id = u.id
+                 LEFT JOIN role AS r ON r.id = ur.role_id
+        WHERE u.id = #{id}
     </select>
     <select id="findUserWithPosts" parameterType="int" resultMap="UserWithPostsResultMap">
         SELECT u.*, p.id as pid, p.title, p.content, p.created_at, p.updated_at
