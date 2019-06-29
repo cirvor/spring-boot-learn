@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cirvor.learn.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.cirvor.learn.pojo.User">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, username, password, phone, created_at, updated_at
-  </sql>
-  <select id="findUserByUsername" parameterType="String" resultType="com.cirvor.learn.pojo.User">
-      SELECT * FROM user WHERE username = #{username}
-  </select>
+    <resultMap id="BaseResultMap" type="com.cirvor.learn.pojo.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <resultMap id="UserWithPostsResultMap" type="com.cirvor.learn.pojo.UserPost" extends="BaseResultMap">
+        <collection property="posts" ofType="com.cirvor.learn.pojo.Post">
+            <id column="pid" jdbcType="INTEGER" property="id" />
+            <result column="title" jdbcType="VARCHAR" property="title" />
+            <result column="content" jdbcType="LONGVARCHAR" property="content" />
+            <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+            <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        id, username, password, phone, created_at, updated_at
+    </sql>
+    <select id="findUserByUsername" parameterType="String" resultType="com.cirvor.learn.pojo.User">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+    <select id="findUserWithPosts" parameterType="int" resultMap="UserWithPostsResultMap">
+        SELECT u.*, p.id as pid, p.title, p.content, p.created_at, p.updated_at
+        FROM user AS u
+        LEFT JOIN post AS p ON p.user_id = u.id
+        WHERE u.id = #{id}
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.cirvor.learn.mapper;
 
 import com.cirvor.learn.pojo.User;
+import com.cirvor.learn.pojo.UserPost;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,8 @@ public interface UserMapper extends BaseMapper<User> {
      */
     @Select("SELECT * FROM user where username=#{username}")
     List<User> getUserByUsername(String username);
+
+    UserPost findUserWithPosts(int id);
 
 //    /**
 //     * 插入用户信息

@@ -2,6 +2,7 @@ package com.cirvor.learn.service.impl;
 
 import com.cirvor.learn.mapper.UserMapper;
 import com.cirvor.learn.pojo.User;
+import com.cirvor.learn.pojo.UserPost;
 import com.cirvor.learn.service.UserService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,10 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = "user", key = "#id")
     public User find(int id) {
         return  userMapper.selectByPrimaryKey(id);
+    }
+
+    public UserPost findUserWithPosts(int id) {
+        return  userMapper.findUserWithPosts(id);
     }
 
     public List<User> all()

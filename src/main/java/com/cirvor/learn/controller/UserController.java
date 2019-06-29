@@ -1,6 +1,7 @@
 package com.cirvor.learn.controller;
 
 import com.cirvor.learn.pojo.User;
+import com.cirvor.learn.pojo.UserPost;
 import com.cirvor.learn.service.UserRoleService;
 import com.cirvor.learn.service.UserService;
 import com.cirvor.learn.util.ResultUtil;
@@ -10,7 +11,6 @@ import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -78,8 +78,8 @@ public class UserController {
      */
     @GetMapping("user-info")
     public ResultData userInfo(@RequestParam(value = "id") int id) throws NumberFormatException, NotFoundException {
-        User user = userService.find(id);
-        Optional<User> userOptional = Optional.ofNullable(user);
+        UserPost userPost = userService.findUserWithPosts(id);
+        Optional<UserPost> userOptional = Optional.ofNullable(userPost);
 
         return userOptional
                 .map(ResultUtil::success)
